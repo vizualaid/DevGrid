@@ -165,7 +165,10 @@ export const posts = [
     firstName: "Steve",
     lastName: "Ralph",
     location: "New York, CA",
-    description: "Some really long random description",
+    description: `I am working on a React app where i want to display charts. I tried to use react-chartjs-2 but i can't find a way to make it work. when i try to use Pie component, I get the error: Error: "arc" is not a registered element.
+    I did a very simple react app:
+    npx create-react-app my-app
+    npm install --save react-chartjs-2 chart.js`,
     picturePath: "post1.jpeg",
     userPicturePath: "p3.jpeg",
     likes: new Map([
