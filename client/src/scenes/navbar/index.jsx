@@ -46,8 +46,9 @@ const Navbar = () => {
       <FlexBetween gap="1.75rem">
         <Typography
           fontWeight="bold"
+          font-family= "Orbitron"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
-          color="primary"
+          // color="primary"
           onClick={() => navigate("/home")}
           sx={{
             "&:hover": {
@@ -58,7 +59,7 @@ const Navbar = () => {
         >
           DevGrid
         </Typography>
-        {isNonMobileScreens && (
+        {/* {isNonMobileScreens && (
           <FlexBetween
             backgroundColor={neutralLight}
             borderRadius="9px"
@@ -70,7 +71,7 @@ const Navbar = () => {
               <Search />
             </IconButton>
           </FlexBetween>
-        )}
+        )} */}
       </FlexBetween>
 
       {/* DESKTOP NAV */}

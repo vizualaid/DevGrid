@@ -37,7 +37,8 @@ const UserSchema = new mongoose.Schema(
     occupation: String,
     viewedProfile: Number,
     CodeForces:String,
-    leetcode:String,        
+    leetcode:String, 
+    github:String,        
     impressions: Number,
   },
   { timestamps: true }

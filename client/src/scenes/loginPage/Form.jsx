@@ -24,6 +24,7 @@ const registerSchema = yup.object().shape({
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
   leetcode: yup.string().required("required"),
+  github: yup.string().required("required"),
   picture: yup.string().required("required"),
 });
 
@@ -37,6 +38,7 @@ const initialValuesRegister = {
   lastName: "",
   email: "",
   password: "",
+  github:"",
   leetcode:"",
   location: "",
   occupation: "",
@@ -186,6 +188,18 @@ const Form = () => {
                     Boolean(touched.leetcode) && Boolean(errors.leetcode)
                   }
                   helperText={touched.leetcode && errors.leetcode}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                 <TextField
+                  label="GitHub Username "
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.github}
+                  name="github" 
+                  error={
+                    Boolean(touched.github) && Boolean(errors.github)
+                  }
+                  helperText={touched.github && errors.github}
                   sx={{ gridColumn: "span 4" }}
                 />
 

@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import CodingProfile from "../models/CodingProfile.js";
+
 
 /* READ */
 export const getUser = async (req, res) => {
@@ -57,6 +59,18 @@ export const addRemoveFriend = async (req, res) => {
     );
 
     res.status(200).json(formattedFriends);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+
+///
+export const getCodingProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const codingprofile = await CodingProfile.findById(id);
+    res.status(200).json(codingprofile);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

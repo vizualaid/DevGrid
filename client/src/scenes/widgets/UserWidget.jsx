@@ -1,6 +1,7 @@
 import {
   ManageAccountsOutlined,
   EditOutlined,
+  AccountBalanceOutlined,
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
@@ -12,15 +13,19 @@ import CodingProfile from "components/CodingProfile";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 
 const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
+  const [cp, setCP] = useState(null);
   const { palette } = useTheme();
   const navigate = useNavigate();
   const token = useSelector((state) => state.token);
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
+  var userId2
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:3001/users/${userId}`, {
@@ -30,15 +35,29 @@ const UserWidget = ({ userId, picturePath }) => {
     const data = await response.json();
     setUser(data);
   };
-
+  const getCodingProfile = async () => {
+    const response = await fetch(`http://localhost:3001/codingprofiles/${userId}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    setCP(data);
+  };
+  
   useEffect(() => {
     getUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+   
+    getCodingProfile();
+  
+  }, []); 
+  
   if (!user) {
     return null;
   }
-
+  if (!cp) {
+    return null;
+  }
+  
   const {
     firstName,
     lastName,
@@ -49,7 +68,32 @@ const UserWidget = ({ userId, picturePath }) => {
     impressions,
     friends,
   } = user;
+  
+  const {
+    collage_rank,
+    institute_name,
+    language_used,
+    overall_coding_score,
+    total_problems_solved,
+    school_problems_solved,
+    basic_problems_solved=0,
+    easy_problems_solved=0,
+    medium_problems_solved=0,
+    hard_problems_solved=0,
+  } = cp;
 
+  function trimWords(str, maxWords) {
+    const words = str.split(' ');
+    if (words.length > maxWords) {
+      return `${words.slice(0, maxWords).join(' ')} ...`;
+    } else {
+      return str;
+    }
+  }
+  
+  
+
+  
   return (
     <WidgetWrapper>
       {/* FIRST ROW */}
@@ -67,14 +111,18 @@ const UserWidget = ({ userId, picturePath }) => {
               fontWeight="500"
               sx={{
                 "&:hover": {
-                  color: palette.primary.light,
+                  color: palette.primary.main,
+                  // color:palette.secondary.light,
                   cursor: "pointer",
                 },
               }}
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color={medium}>{friends.length} friends</Typography>
+            <Typography color={medium}>{friends.length} friends </Typography>
+            
+          
+
           </Box>
         </FlexBetween>
         <ManageAccountsOutlined />
@@ -85,9 +133,15 @@ const UserWidget = ({ userId, picturePath }) => {
       {/* SECOND ROW */}
       <Box p="1rem 0">
         <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+          <AccountBalanceOutlined fontSize="large" sx={{ color: main }} />
+          {/* <Typography color={medium}>{location}</Typography> */}
+          <Typography color={medium}>{trimWords(institute_name, 4)}</Typography>
+        </Box> <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
           <LocationOnOutlined fontSize="large" sx={{ color: main }} />
           <Typography color={medium}>{location}</Typography>
+          {/* <Typography color={medium}>{trimWords(institute_name, 4)}</Typography> */}
         </Box>
+        
         <Box display="flex" alignItems="center" gap="1rem">
           <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
           <Typography color={medium}>{occupation}</Typography>
@@ -99,13 +153,13 @@ const UserWidget = ({ userId, picturePath }) => {
       {/* THIRD ROW */}
       <Box p="1rem 0">
         <FlexBetween mb="0.5rem">
-          <Typography color={medium}>Who's viewed your profile</Typography>
+          <Typography color={medium}>Profile Views</Typography>
           <Typography color={main} fontWeight="500">
             {viewedProfile}
           </Typography>
         </FlexBetween>
         <FlexBetween>
-          <Typography color={medium}>Impressions of your post</Typography>
+          <Typography color={medium}>Post Impressions</Typography>
           <Typography color={main} fontWeight="500">
             {impressions}
           </Typography>
@@ -120,14 +174,22 @@ const UserWidget = ({ userId, picturePath }) => {
           </Typography>
         </FlexBetween>
         <FlexBetween>
-          {/* code component coding progile here */}
-          <CodingProfile leetcode={leetcode} />
+          {/* code component coding profile here */}
+          
+       <CodingProfile 
+    leetcode={leetcode}
+    total_problems_solved={total_problems_solved}
+    easy= {basic_problems_solved}//32
+    medium ={easy_problems_solved+medium_problems_solved}//80
+    hard= {hard_problems_solved}//16
+    />  
         </FlexBetween>
       </Box>
 
       <Divider />
 
       {/* FOURTH ROW */}
+      
       <Box p="1rem 0">
         <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
           Social Profiles
@@ -135,7 +197,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
         <FlexBetween gap="1rem" mb="0.5rem">
           <FlexBetween gap="1rem">
-            <img src="../assets/twitter.png" alt="twitter" />
+            {/* <img src="../assets/twitter.png" alt="twitter" /> */}
             <Box>
               <Typography color={main} fontWeight="500">
                 Twitter
@@ -148,7 +210,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
         <FlexBetween gap="1rem">
           <FlexBetween gap="1rem">
-            <img src="../assets/linkedin.png" alt="linkedin" />
+            {/* <img src="../assets/linkedin.png" alt="linkedin" /> */}
             <Box>
               <Typography color={main} fontWeight="500">
                 Linkedin
