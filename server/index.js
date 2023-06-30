@@ -20,14 +20,18 @@ import { fileURLToPath } from "url";
 // Provides utilities for working with URLs.
 // param=> is url string or oject to conver to a path
 // returns=> fully resolves platform-specific Node.js file path
+import fetch from 'node-fetch';
 
 //  routes
+import codechefRoutes from "./routes/codechef.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import cpRoutes from "./routes/codingprofiles.js";
 
+
 import { register } from "./controllers/auth.js";
+import { createCodingProfile } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
 import { verifyToken } from "./middleware/auth.js";
 
@@ -35,7 +39,7 @@ import { verifyToken } from "./middleware/auth.js";
 import User from "./models/User.js";
 import Post from "./models/Post.js";
 import CodingProfile from "./models/CodingProfile.js"
-
+import CodeChef from "./models/CodeChef.js"
 //  Imports sample data for seeding the database.
 // import { users, posts, } from "./data/index.js";
 
@@ -92,14 +96,78 @@ const upload = multer({ storage }); //middleware that can be used to handle file
 
 /* ROUTES WITH FILES */
 app.post("/auth/register", upload.single("picture"), register);
-app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
+app.post("/auth/createCodingProfile", createCodingProfile);
+
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
+// 
 /* ROUTES */
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/posts", postRoutes);
 app.use("/codingprofiles", cpRoutes);
+console.log("start");
+
+app.get('/', (req, res) => {
+  res.send('Hello, Server!');
+}); 
+ console.log("start codechef");
+app.get('/codechef/:username', async (req, res) => {
+  try {
+    console.log("try block of codechef");
+    const { username } = req.params;
+    const apiUrl = `https://coding-platform-profile-api.onrender.com/codechef/${username}`;
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    res.json(data);
+    // console.log("start");
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+app.get('/', (req, res) => {
+  res.send('Hello, Server!');
+}); 
+ console.log("start codechef");
+app.get('/codechef/:username', async (req, res) => {
+  try {
+    console.log("try block of codechef");
+    const { username } = req.params;
+    const apiUrl = `https://coding-platform-profile-api.onrender.com/codechef/${username}`;
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    res.json(data);
+    // console.log("start");
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+// `https://coding-platform-profile-api.onrender.com/geeksforgeeks/kunwarisha9`
+app.get('/geeksforgeeks/:username', async (req, res) => {
+  try {
+    console.log("try block of codechef");
+    const { username } = req.params;
+    const apiUrl = `https://coding-platform-profile-api.onrender.com/geeksforgeeks/${username}`;
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    res.json(data);
+    // console.log("start");
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// app.use("/codechef", codechefRoutes);
+console.log("end");
 
 
 

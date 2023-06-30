@@ -24,9 +24,44 @@ const registerSchema = yup.object().shape({
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
   leetcode: yup.string().required("required"),
+  gfg: yup.string().required("required"),
+  codeforces: yup.string().required("required"),
+
   github: yup.string().required("required"),
   picture: yup.string().required("required"),
 });
+
+const cpSchema = yup.object().shape({
+      username: yup.string().required("required"),
+      collage_rank: yup.string().required("required"),
+      institute_name: yup.string().required("required"),
+      language_used: yup.string().required("required"),
+      overall_coding_score: yup.string().required("required"),
+      total_problems_solved: yup.string().required("required"),
+      monthly_score: yup.string().required("required"),
+      school_problems_solved: yup.number().required("required"),
+      basic_problems_solved: yup.number().required("required"),
+      easy_problems_solved: yup.number().required("required"),
+      medium_problems_solved: yup.number().required("required"),
+      hard_problems_solved: yup.number().required("required"),
+      userId: yup.string().required("required"),
+});
+
+const initialValuesCp = {
+      username: "-",
+      collage_rank: "0",
+      institute_name:"0",
+      language_used: "0",
+      overall_coding_score: "0",
+      total_problems_solved: "0",
+      monthly_score: "0",
+      school_problems_solved: 0,
+      basic_problems_solved: 0,
+      easy_problems_solved: 0,
+      medium_problems_solved: 0,
+      hard_problems_solved: 0,
+      userId:"",
+};
 
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
@@ -40,6 +75,8 @@ const initialValuesRegister = {
   password: "",
   github:"",
   leetcode:"",
+  codeforces:"",
+  gfg:"",
   location: "",
   occupation: "",
   picture: "",
@@ -179,7 +216,7 @@ const Form = () => {
                 />
                {/* //somechange */}
                 <TextField
-                  label="Coding Profile Username { leecode / codeforces } "
+                  label="Coding Profile Username { leetcode } "
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.leetcode}
@@ -188,6 +225,30 @@ const Form = () => {
                     Boolean(touched.leetcode) && Boolean(errors.leetcode)
                   }
                   helperText={touched.leetcode && errors.leetcode}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                <TextField
+                  label="Coding Profile Username { codeforces } "
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.codeforces}
+                  name="codeforces" 
+                  error={
+                    Boolean(touched.codeforces) && Boolean(errors.codeforces)
+                  }
+                  helperText={touched.codeforces && errors.codeforces}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                <TextField
+                  label="Coding Profile Username { GFG } "
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.gfg}
+                  name="GFG" 
+                  error={
+                    Boolean(touched.gfg) && Boolean(errors.gfg)
+                  }
+                  helperText={touched.gfg && errors.gfg}
                   sx={{ gridColumn: "span 4" }}
                 />
                  <TextField

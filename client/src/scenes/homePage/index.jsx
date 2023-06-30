@@ -14,14 +14,15 @@ const HomePage = () => {
   const hashtags = ["technology", "tech", "engineering", "design", "programming", "innovation"];
   return (
     <Box>
-      <Navbar />
+      <Navbar picturePath={picturePath} />
       <Box
         width="100%"
-        padding="2rem 6%"
+        padding="1rem 4%"
         display={isNonMobileScreens ? "flex" : "block"}
         gap="0.5rem"
         justifyContent="space-between"
       >
+        
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
           <UserWidget userId={_id} picturePath={picturePath} />
         </Box>

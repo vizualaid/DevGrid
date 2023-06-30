@@ -24,8 +24,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
+// import { Box, Typography, Divider, useTheme } from "@mui/material";
+import UserImage from "components/UserImage";
 
-const Navbar = () => {
+
+const Navbar = ({   picturePath }) => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -107,6 +110,7 @@ const Navbar = () => {
             >
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
+                <UserImage image={picturePath} />
               </MenuItem>
               <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>

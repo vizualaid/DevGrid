@@ -88,10 +88,15 @@
 import React, { useState, useEffect } from 'react';
 import { CChart } from '@coreui/react-chartjs';
 import { Box, Divider } from "@mui/material";
+import CodeChef from './CodeChef.jsx';
 
 function CodingProfile({ leetcode , total_problems_solved, easy, medium, hard}) {
   const [data, setData] = useState(0);
-  const [dataCodechef, setDataCodechef] = useState(null);
+  const [codechefData, setCodechefData] = useState({});
+
+function setDataCodechef(data) {
+  setCodechefData(data);
+}
   const [totalSolved, setTotalSolved] = useState(null);
   // total_problems_solved into number and set to datagfg
   const [datagfg, setDatagfg] = useState(Number(total_problems_solved));
@@ -128,45 +133,6 @@ function CodingProfile({ leetcode , total_problems_solved, easy, medium, hard}) 
       })
       .catch(error => console.error(error));
 
-
-    // fetch(`https://coding-platform-profile-api.onrender.com/geeksforgeeks/kunwarisha9`)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     setRank(data.collage_rank);
-    //     setInstituteName(data.institute_name);
-    //     setTotalSolved(data.total_problems_solved);
-    //     // console.log(data);
-    //     // const collageRank = data.collage_rank;
-    //     // console.log(collageRank);
-    //     // console.log(data.total_problems_solved);
-        
-    //     const totalSolved = parseInt(data.total_problems_solved);
-
-    //     setTotalProblemsSolved(totalSolved);
-    //     console.warn(totalSolved);
-    //   })
-
-
-
-
-    // const fetchData = async () => {
-    //   const response = await fetch(`https://coding-platform-profile-api.onrender.com/geeksforgeeks/kunwarisha9`);
-    //   const jsonData = await response.json();
-    //   setDatagfg(jsonData);
-    //   // console.log("HIIIIIIIIIIII");
-    //   console.log(jsonData);
-    // };
-
-    // fetchData();
-
-    fetch(`https://coding-platform-profile-api.onrender.com/codechef/ishakunwar`)
-  .then(response => response.json())
-  .then(data => {
-    setData(data+12)
-    console.log()
-  })
-  .catch(error => console.error(error));
-
   }, [username]);
 
   return (
@@ -196,6 +162,9 @@ function CodingProfile({ leetcode , total_problems_solved, easy, medium, hard}) 
 
                 <p>Submissions with verdict "OK": {okSubmissionsCount}</p>
                 <Divider />
+              
+       <CodeChef userName={username}  />
+       <Divider />
                 <h3>GFG</h3>
                 <div>
           {/* <p>Rank: {rank}</p> */}
@@ -219,8 +188,10 @@ function CodingProfile({ leetcode , total_problems_solved, easy, medium, hard}) 
                 <p>Submissions with verdict "OK": {okSubmissionsCount}</p> */}
 
                 <Divider />
-                <h1>Total solved: {data.totalSolved + okSubmissionsCount + datagfg}</h1>
-                {/* datagfg.total_problems_solved */}
+                <h1>Total solved: {data.totalSolved + okSubmissionsCount 
+                +  datagfg
+              }</h1>
+              
               </>
             ) : (
               <p>Loading...</p>
